@@ -41,10 +41,10 @@ st.markdown("### Simulador")
 entradas = st.slider("Elige el numero de entradas", 1, 10)
 st.write("Has elegido ", entradas, 'entradas')
 
-
+st.markdown("### Pesos")
 weights_row = st.columns(entradas)
+st.markdown("### Entradas")
 inputs_row = st.columns(entradas)
-
 
 weights = []
 inputs = []
@@ -52,13 +52,13 @@ inputs = []
 for i in range(1, entradas + 1):
     # Display weights in the first row
     with weights_row[i - 1]:
-        st.markdown("### Pesos")
         weight = st.number_input(f'Introduce un peso w{i}', step=0.01, key=f"weight_{i}")
         weights.append(weight)
 
+for i in range(1, entradas + 1):
+
     # Display inputs in the second row
     with inputs_row[i - 1]:
-        st.markdown("### Entradas")
         input_value = st.number_input(f'Introduzca el valor de la entrada x{i}:', key=f"input_{i}")
         inputs.append(input_value)
 
