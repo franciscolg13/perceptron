@@ -1,36 +1,6 @@
 import streamlit as st
+from neuron import Neuron  # Import the Neuron class from the neuron module
 import math
-
-class Neuron:
-    def __init__(self, weights, bias, func):
-        self.weights = weights
-        self.bias = bias
-        self.func = func
-
-    def predict(self, input_data):
-        # Misma cantidad de entradas como de pesos.
-        if len(input_data) != len(self.weights):
-            raise ValueError("Input data and weights must have the same length.")
-
-
-        # Calcula la suma ponderada de los inputs
-        weighted_sum = sum(w * x for w, x in zip(self.weights, input_data))
-
-        # Añade Bias
-        weighted_sum += self.bias
-
-        # Aplica la funcion de activacion.
-        if self.func == "ReLU":
-            return max(0, weighted_sum)  # Funcion de activacion ReLu
-        elif self.func == "Sigmoid": # Funcion sigmoide
-            return 1 / (1 + math.exp(-weighted_sum))
-        elif self.func == "Tanh": # Funcion tanh
-            return math.tanh(weighted_sum)
-        else:
-            raise ValueError(f"Unsupported activation function: {self.func}")
-        
-    def changeBias(self, new_bias):
-        self.bias = new_bias
 
 st.title('Aplicacion streamlit para un perceptrón')
 
@@ -78,7 +48,14 @@ with col2:
 if st.button("Calcular la salida", type="primary"):
     # Calcular la salida usando las entradas proporcionadas
     try:
-        neuron = Neuron(weights, bias=bias_input, func=funcion)
+        # Obtener el nombre de la función de activación correspondiente
+        funciones_activacion = {
+            'ReLU': '_relu',
+            'Sigmoid': '_sigmoid',
+            'Tanh': '_tanh'
+        }
+        nombre_funcion = funciones_activacion[funcion]
+        neuron = Neuron(weights, bias=bias_input, func=nombre_funcion)
         output = neuron.predict(inputs)
         st.success(f"La salida del perceptrón es: {output}")
     except ValueError as e:
